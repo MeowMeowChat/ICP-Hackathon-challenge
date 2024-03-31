@@ -1,10 +1,10 @@
 ##### MeowMeow Application for ICP
 
-[Watch our introduction video here:]("https://github.com/MeowMeowChat/ICP-Hackathon-challenge/blob/main/Meow_meow_pitch_video.mov")
+[Watch our introduction video here:]("https://drive.google.com/file/d/1B3kKim3N5n8v4T0D1bWxt85T2pjWXUD1/view?usp=drive_link")
 
 [Check out our pitchdeck here:]("https://github.com/MeowMeowChat/ICP-Hackathon-challenge/blob/main/pitchdeck_2024.pdf")
 
-[Mockup screens from the app:]("https://github.com/MeowMeowChat/ICP-Hackathon-challenge/blob/main/Mock-up_screens_.pdf")
+[Mockup screens from the app:]("https://github.com/MeowMeowChat/ICP-Hackathon-challenge/blob/main/Mock-up_screens.pdf")
 
 
 #### ICP Application repo contents:
