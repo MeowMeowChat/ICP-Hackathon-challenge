@@ -1,7 +1,7 @@
 {
   "name": "message_board",
   "version": "0.1.0",
-  "description": "Internet Computer message board application",
+  "description": "Internet Computer message board application for MeowMeow",
   "dependencies": {
     "@dfinity/agent": "^1.1.1",
     "@dfinity/candid": "^1.1.1",

@@ -1,63 +1,72 @@
 import { v4 as uuidv4 } from 'uuid';
-import { ic, StableBTreeMap } from 'azle';
+import { Server, StableBTreeMap, ic } from 'azle';
+import express from 'express';
 
+/**
+    This type represents a message that can be listed on a board.
+*/
 class Message {
     id: string;
     title: string;
     body: string;
     attachmentURL: string;
     createdAt: Date;
-    updatedAt: Date | null;
-    constructor(id: string, title: string, body: string, attachmentURL: string, createdAt: Date, updatedAt: Date | null) {
-        this.id = id;
-        this.title = title;
-        this.body = body;
-        this.attachmentURL = attachmentURL;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
+    updatedAt: Date | null
 }
 
-const messagesStorage = new StableBTreeMap<string, Message>(0);
+const messagesStorage = StableBTreeMap<string, Message>(0);
 
-// Adapted methods
-export function postMessage(title: string, body: string, attachmentURL: string): Message {
-    const message = new Message(uuidv4(), title, body, attachmentURL, getCurrentDate(), null);
-    messagesStorage.insert(message.id, message);
-    return message;
-}
+export default Server(() => {
+    const app = express();
+    app.use(express.json());
 
-export function getMessages(): Message[] {
-    return messagesStorage.values();
-}
+    app.post("/messages", (req, res) => {
+        const message: Message =  {id: uuidv4(), createdAt: getCurrentDate(), ...req.body};
+        messagesStorage.insert(message.id, message);
+        res.json(message);
+    });
 
-export function getMessageById(id: string): Message | undefined {
-    const messageOpt = messagesStorage.get(id);
-    if ("None" in messageOpt) {
-        return undefined;
-    } else {
-        return messageOpt.Some;
-    }
-}
+    app.get("/messages", (req, res) => {
+        res.json(messagesStorage.values());
+    });
 
-export function updateMessage(id: string, title: string, body: string, attachmentURL: string): Message | undefined {
-    const messageOpt = messagesStorage.get(id);
-    if ("None" in messageOpt) {
-        return undefined;
-    } else {
-        const message = messageOpt.Some;
-        const updatedMessage = new Message(message.id, title, body, attachmentURL, message.createdAt, getCurrentDate());
-        messagesStorage.insert(message.id, updatedMessage);
-        return updatedMessage;
-    }
-}
+    app.get("/messages/:id", (req, res) => {
+        const messageId = req.params.id;
+        const messageOpt = messagesStorage.get(messageId);
+        if ("None" in messageOpt) {
+            res.status(404).send(`the message with id=${messageId} not found`);
+        } else {
+            res.json(messageOpt.Some);
+        }
+    });
 
-export function deleteMessage(id: string): boolean {
-    const deletedMessage = messagesStorage.remove(id);
-    return !"None" in deletedMessage;
-}
+    app.put("/messages/:id", (req, res) => {
+        const messageId = req.params.id;
+        const messageOpt = messagesStorage.get(messageId);
+        if ("None" in messageOpt) {
+            res.status(400).send(`couldn't update a message with id=${messageId}. message not found`);
+        } else {
+            const message = messageOpt.Some;
+            const updatedMessage = { ...message, ...req.body, updatedAt: getCurrentDate()};
+            messagesStorage.insert(message.id, updatedMessage);
+            res.json(updatedMessage);
+        }
+    });
 
-function getCurrentDate(): Date {
+    app.delete("/messages/:id", (req, res) => {
+        const messageId = req.params.id;
+        const deletedMessage = messagesStorage.remove(messageId);
+        if ("None" in deletedMessage) {
+            res.status(400).send(`couldn't delete a message with id=${messageId}. message not found`);
+        } else {
+            res.json(deletedMessage.Some);
+        }
+    });
+
+    return app.listen();
+});
+
+function getCurrentDate() {
     const timestamp = new Number(ic.time());
     return new Date(timestamp.valueOf() / 1000_000);
 }
