@@ -1,6 +1,15 @@
 ##### MeowMeow Application for ICP
 
-<img src="image-1.png" alt="alt text" width="50%" height="50%"/>
+[Watch our introduction video here:]("https://github.com/MeowMeowChat/ICP-Hackathon-challenge/blob/main/Meow_meow_pitch_video.mov")
+
+[Check out our pitchdeck here:]("https://github.com/MeowMeowChat/ICP-Hackathon-challenge/blob/main/pitchdeck_2024.pdf")
+
+[Mockup screens from the app:]("https://github.com/MeowMeowChat/ICP-Hackathon-challenge/blob/main/Mock-up_screens_.pdf")
+
+
+#### ICP Application repo contents:
+
+![alt text](image-2.png)
 
 Visit us at: https://meowmeowcats.app/
 
