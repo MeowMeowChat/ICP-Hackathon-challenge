@@ -9,7 +9,8 @@
 
 #### ICP Application repo contents:
 
-![alt text](image-2.png)
+
+<img src="image-2.png" alt="alt text" width="50%" height="50%"/>
 
 Visit us at: https://meowmeowcats.app/
 
